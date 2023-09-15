@@ -150,8 +150,8 @@ jobs:
         if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
         run: |
           # Organize and keep essential files, delete unnecessary files
-          chmod +x ${ROOTFS_SCRIPT}
-          ${ROOTFS_SCRIPT} -v ${{ inputs.set_release }}
+          # chmod +x ${ROOTFS_SCRIPT}
+          # ${ROOTFS_SCRIPT} -v ${{ inputs.set_release }}
 
           # Output cleaning result information
           df -hT ${PWD}
