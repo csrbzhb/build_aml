@@ -22,11 +22,11 @@ on:
       armbian_board:
         description: "Select device board."
         required: false
-        default: "rk3568_sv"
+        default: "rk3568-sv"
         type: choice
         options:
           - station-p2
-          - rk3568_sv
+          - rk3568-sv
       armbian_branch:
         description: "Select kernel branch.kernel version."
         required: false
@@ -167,36 +167,36 @@ jobs:
           allowUpdates: true
           token: ${{ secrets.GH_TOKEN }}
 
-      - name: Rebuild Armbian
-        uses: csrbzhb/amlogic-s9xxx-armbian@rk
-        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
-        with:
-          build_target: armbian
-          armbian_path: build/output/images/*.img.gz
-          armbian_board: ${{ inputs.armbian_board }}
-          armbian_kernel: ${{ inputs.armbian_kernel }}
-          auto_kernel: ${{ inputs.auto_kernel }}
-          kernel_repo: ${{ inputs.kernel_repo }}
-          kernel_usage: ${{ inputs.kernel_usage }}
-          armbian_fstype: ${{ inputs.armbian_fstype }}
-          builder_name: ${{ inputs.builder_name }}
-          gh_token: ${{ secrets.GH_TOKEN }}
+      # - name: Rebuild Armbian
+      #   uses: csrbzhb/amlogic-s9xxx-armbian@rk
+      #   if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
+      #   with:
+      #     build_target: armbian
+      #     armbian_path: build/output/images/*.img.gz
+      #     armbian_board: ${{ inputs.armbian_board }}
+      #     armbian_kernel: ${{ inputs.armbian_kernel }}
+      #     auto_kernel: ${{ inputs.auto_kernel }}
+      #     kernel_repo: ${{ inputs.kernel_repo }}
+      #     kernel_usage: ${{ inputs.kernel_usage }}
+      #     armbian_fstype: ${{ inputs.armbian_fstype }}
+      #     builder_name: ${{ inputs.builder_name }}
+      #     gh_token: ${{ secrets.GH_TOKEN }}
 
-      - name: Upload Rebuild image to Release
-        uses: ncipollo/release-action@main
-        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
-        with:
-          tag: ${{ steps.clean.outputs.build_tag }}
-          artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
-          allowUpdates: true
-          removeArtifacts: false
-          replacesArtifacts: true
-          token: ${{ secrets.GH_TOKEN }}
-          body: |
-            ### Armbian Image information
-            - Default username: root
-            - Default password: 1234
-            - Install command: armbian-install
-            - Update command: armbian-update
-            ### Armbian Image Verification
-            - sha256sum
+      # - name: Upload Rebuild image to Release
+      #   uses: ncipollo/release-action@main
+      #   if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+      #   with:
+      #     tag: ${{ steps.clean.outputs.build_tag }}
+      #     artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
+      #     allowUpdates: true
+      #     removeArtifacts: false
+      #     replacesArtifacts: true
+      #     token: ${{ secrets.GH_TOKEN }}
+      #     body: |
+      #       ### Armbian Image information
+      #       - Default username: root
+      #       - Default password: 1234
+      #       - Install command: armbian-install
+      #       - Update command: armbian-update
+      #       ### Armbian Image Verification
+      #       - sha256sum
