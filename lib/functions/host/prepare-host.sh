@@ -262,7 +262,7 @@ function adaptative_prepare_host_dependencies() {
 		jq          # required for parsing JSON, specially rootfs-caching related.
 		kmod        # this causes initramfs rebuild, but is usually pre-installed, so no harm done unless it's an upgrade
 		libbison-dev libelf-dev libfdt-dev libfile-fcntllock-perl libmpc-dev libfl-dev liblz4-tool
-		libncurses-dev libssl-dev libusb-1.0-0-dev
+		libncurses-dev libssl-dev libusb-dev
 		linux-base locales lsof
 		ncurses-base ncurses-term # for `make menuconfig`
 		ntpdate
