@@ -19,10 +19,12 @@ evince
 evince-common
 fontconfig
 fontconfig-config
+fonts-ubuntu
 fonts-ubuntu-console
 foomatic-db-compressed-ppds
 gdebi
 ghostscript-x
+gnome-calculator
 gnome-font-viewer
 gnome-disk-utility
 gnome-screenshot
@@ -117,4 +119,5 @@ xscreensaver
 xsensors
 xserver-xorg
 xserver-xorg-video-fbdev
+xauth
 xwallpaper
