@@ -36,18 +36,17 @@ on:
           - current
           - legacy
           - edge
-      armbian_kernel:
+      armbian_desktop:
         description: "Select kernel version."
         required: false
-        default: "6.1.1"
+        default: "no"
         type: choice
         options:
-          - 5.4.1_5.10.1
-          - 5.15.1_6.1.1
-          - 5.4.1
-          - 5.10.1
-          - 5.15.1
-          - 6.1.1
+          - no
+          - gnome
+          - cinnamon
+          - xfce
+          - i3-wm
       auto_kernel:
         description: "Auto use the latest kernel."
         required: false
@@ -140,9 +139,18 @@ jobs:
         run: |
           # Compile method and parameter description: https://docs.armbian.com/Developer-Guide_Build-Options
           cd build/
-              ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
-                           BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
-                           COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+              if [[${{ inputs.armbian_desktop }} == 'no' ]]; then
+                ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                             BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
+                             COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+              else
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                             DESKTOP_APPGROUPS_SELECTED='3dsupport browsers chat desktop_tools editors internet multimedia programming remote_desktop' \
+                             DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
+                             BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
+                             COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+              fi
+
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Organize files and clear space
