@@ -37,7 +37,7 @@ on:
           - legacy
           - edge
       armbian_desktop:
-        description: "Select kernel version."
+        description: "Select armbian desktop environment."
         required: false
         default: "no"
         type: choice
