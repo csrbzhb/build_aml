@@ -39,7 +39,7 @@ on:
       armbian_desktop:
         description: "Select armbian desktop environment."
         required: false
-        default: false
+        default: "false"
         type: choice
         options:
           - false
@@ -139,7 +139,7 @@ jobs:
         run: |
           # Compile method and parameter description: https://docs.armbian.com/Developer-Guide_Build-Options
           cd build/
-              if [[${{ inputs.armbian_desktop }} == false ]]; then
+              if [[${{ inputs.armbian_desktop }} == 'false' ]]; then
                   ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
                              BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
                              COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
