@@ -27,6 +27,7 @@ on:
         options:
           - station-p2
           - rk3568-sv
+          - caimore-59f
       armbian_branch:
         description: "Select kernel branch.kernel version."
         required: false
@@ -145,7 +146,7 @@ jobs:
                              COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
               else
                   ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
-                             DESKTOP_APPGROUPS_SELECTED='3dsupport browsers chat desktop_tools editors internet multimedia programming remote_desktop' \
+                             DESKTOP_APPGROUPS_SELECTED='3dsupport browsers desktop_tools editors internet multimedia remote_desktop' \
                              DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
                              BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
                              COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
