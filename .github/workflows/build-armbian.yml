@@ -28,7 +28,7 @@ on:
           - station-p2
           - rk3568-sv
           - caimore-59f
-          - luban-jixiang
+          - rk3568-luban
       armbian_branch:
         description: "Select kernel branch.kernel version."
         required: false
