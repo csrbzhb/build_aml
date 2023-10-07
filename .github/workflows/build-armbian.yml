@@ -164,7 +164,7 @@ jobs:
         if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
         with:
           tag: ${{ steps.clean.outputs.build_tag }}
-          artifacts: build/output/images/*
+          artifacts: output/images/*
           allowUpdates: true
           token: ${{ secrets.GH_TOKEN }}
 
