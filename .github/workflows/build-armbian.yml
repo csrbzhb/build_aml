@@ -127,31 +127,22 @@ jobs:
           sudo timedatectl set-timezone "${TZ}"
           echo "status=success" >> ${GITHUB_OUTPUT}
 
-      - name: Download source code
-        id: down
-        if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
-        run: |
-          df -hT ${PWD}
-          git clone -q --single-branch --depth=1 --branch=rubin https://github.com/csrbzhb/build.git build
-          echo "status=success" >> ${GITHUB_OUTPUT}
-
       - name: Compile Armbian [ ${{ inputs.set_release }} ]
         id: compile
         if: ${{ steps.down.outputs.status }} == 'success' && !cancelled()
         run: |
           # Compile method and parameter description: https://docs.armbian.com/Developer-Guide_Build-Options
-          cd build/
-              if [ ${{ inputs.armbian_desktop }} == 'false' ]; then
-                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
-                             BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
-                             COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
-              else
-                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
-                             DESKTOP_APPGROUPS_SELECTED='3dsupport browsers' \
-                             DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
-                             BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
-                             COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
-              fi
+          if [ ${{ inputs.armbian_desktop }} == 'false' ]; then
+              ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                         BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
+                         COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+          else
+              ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                         DESKTOP_APPGROUPS_SELECTED='3dsupport browsers' \
+                         DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
+                         BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
+                         COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+          fi
 
           echo "status=success" >> ${GITHUB_OUTPUT}
 
