@@ -18,7 +18,7 @@
 #
 # Set environment variables
 current_path="${PWD}"
-build_path="${current_path}/build"
+build_path="${current_path}"
 image_path="${build_path}/output/images"
 cache_path="${build_path}/cache/rootfs"
 tmp_rootfs="${image_path}/tmp_rootfs"
