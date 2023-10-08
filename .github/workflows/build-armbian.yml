@@ -25,6 +25,7 @@ on:
         default: "rk3568-sv"
         type: choice
         options:
+          - all
           - station-p2
           - rk3568-sv
           - caimore-59f
@@ -133,15 +134,45 @@ jobs:
         run: |
           # Compile method and parameter description: https://docs.armbian.com/Developer-Guide_Build-Options
           if [ ${{ inputs.armbian_desktop }} == 'false' ]; then
-              ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+              if [ ${{ inputs.armbian_board }} == 'all' ]; then
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=rk3568-sv BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
                          BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
                          COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=caimore-59f BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                         BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
+                         COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=rk3568-luban BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                         BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
+                         COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+              else
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                         BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
+                         COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+              fi
           else
-              ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+              if [ ${{ inputs.armbian_board }} == 'all' ]; then
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=rk3568-sv BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
                          DESKTOP_APPGROUPS_SELECTED='3dsupport browsers' \
                          DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
                          BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
                          COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=caimore-59f BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                         DESKTOP_APPGROUPS_SELECTED='3dsupport browsers' \
+                         DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
+                         BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
+                         COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=rk3568-luban BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                         DESKTOP_APPGROUPS_SELECTED='3dsupport browsers' \
+                         DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
+                         BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
+                         COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+              else
+                  ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{ inputs.armbian_board }} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                         DESKTOP_APPGROUPS_SELECTED='3dsupport browsers' \
+                         DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
+                         BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
+                         COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
+              fi
           fi
 
           echo "status=success" >> ${GITHUB_OUTPUT}
