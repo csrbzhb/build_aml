@@ -50,6 +50,7 @@ on:
           - cinnamon
           - xfce
           - i3-wm
+          - kde-plasma
       auto_kernel:
         description: "Auto use the latest kernel."
         required: false
