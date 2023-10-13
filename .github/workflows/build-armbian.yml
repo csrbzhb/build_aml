@@ -140,7 +140,7 @@ jobs:
               if [ ${{ inputs.armbian_board }} == 'all' ]; then
                   for mdev in "rk3568-sv caimore-59f rk3568-luban maxhub-tw07b xiyun-p15g-m";
                   do
-                      ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{mdev}} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                      ./compile.sh RELEASE=${{ inputs.set_release }} BOARD="${mdev}" BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
                          BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
                          COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes
                   done
@@ -154,7 +154,7 @@ jobs:
 
                   for mdev in "rk3568-sv caimore-59f rk3568-luban maxhub-tw07b xiyun-p15g-m";
                   do
-                      ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=${{mdev}} BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
+                      ./compile.sh RELEASE=${{ inputs.set_release }} BOARD="${mdev}" BRANCH=${{ inputs.armbian_branch }} BUILD_MINIMAL=no \
                          DESKTOP_APPGROUPS_SELECTED='3dsupport browsers' \
                          DESKTOP_ENVIRONMENT=${{ inputs.armbian_desktop }} DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
                          BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=yes EXPERT=yes KERNEL_CONFIGURE=no \
