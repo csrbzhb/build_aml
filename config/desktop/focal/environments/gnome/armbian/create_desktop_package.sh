@@ -22,8 +22,9 @@ mkdir -p "${destination}"/usr/share/pixmaps/armbian
 cp "${SRC}"/packages/blobs/desktop/icons/armbian.png "${destination}"/usr/share/pixmaps/armbian
 
 ## del the x11 options for speed zhanghb add
-rm "${destination}"/usr/share/xsessions/* -rf
-rm "${destination}"/usr/share/wayland-sessions/gnome.desktop -rf
+rm -rf "${destination}"/usr/share/xsessions/*
+rm -rf "${destination}"/usr/share/wayland-sessions/gnome.desktop
+rm -rf "${destination}"/usr/share/wayland-sessions/ubuntu.desktop
 
 #generate wallpaper list for background changer
 mkdir -p "${destination}"/usr/share/gnome-background-properties
